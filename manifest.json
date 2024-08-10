@@ -1,0 +1,33 @@
+{
+    "manifest_version": 3,
+    "name": "Job Description Analyzer",
+    "version": "1.0",
+    "description": "Analyzes job descriptions from LinkedIn and Glassdoor.",
+    "permissions": ["activeTab", "scripting"],
+    "icons": {
+      "16": "icons/integrator.png",
+      "48": "icons/integrator.png",
+      "128": "icons/integrator.png"
+    },
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": "icons/integrator.png"
+    },
+    "background": {
+      "service_worker": "background.js"
+    },
+    "content_scripts": [
+      {
+        "matches": [
+          "https://www.linkedin.com/jobs/*",
+          "https://www.glassdoor.com/Job/*"
+        ],
+        "js": ["content.js"],
+        "run_at": "document_end"
+      }
+    ],
+    "host_permissions": [
+      "https://www.linkedin.com/*",
+      "https://www.glassdoor.com/*"
+    ]
+  }
