@@ -17,9 +17,31 @@ function getJobDescription() {
     return description;
   }
   
+  function highlightText(matches) {
+    const url = window.location.href;
+    let container;
+  
+    if (url.includes("linkedin.com")) {
+      container = document.querySelector(".jobs-details__main-content");
+    } else if (url.includes("glassdoor.com")) {
+      container = document.querySelector('[class^="JobDetails_jobDetailsContainer"]');
+    }
+  
+    if (container && matches.length > 0) {
+      matches.forEach(match => {
+        const regex = new RegExp(`(${match})`, "gi");
+        container.innerHTML = container.innerHTML.replace(regex, `<span style="background-color: darkorange; color: white;">$1</span>`);
+      });
+    }
+  }
+  
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "getDescription") {
       const description = getJobDescription();
       sendResponse({ description });
+    }
+  
+    if (request.action === "highlight") {
+      highlightText(request.matches);
     }
   });
