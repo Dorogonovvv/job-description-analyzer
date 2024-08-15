@@ -18,6 +18,7 @@ function getJobDescription() {
   }
   
   function highlightText(matches) {
+    console.log("Highlighting text...");
     const url = window.location.href;
     let container;
   
@@ -29,6 +30,7 @@ function getJobDescription() {
   
     if (container && matches.length > 0) {
       matches.forEach(match => {
+        console.log(`Wrapping match: ${match}`);
         const regex = new RegExp(`(${match})`, "gi");
         container.innerHTML = container.innerHTML.replace(regex, `<span style="background-color: darkorange; color: white;">$1</span>`);
       });
@@ -36,6 +38,7 @@ function getJobDescription() {
   }
   
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    console.log("Message received in content.js:", request);
     if (request.action === "getDescription") {
       const description = getJobDescription();
       sendResponse({ description });
